@@ -42,3 +42,4 @@ build/
 /.idea/
 
 /src/main/resources/project.txt
+!/src/main/resources/project.txt

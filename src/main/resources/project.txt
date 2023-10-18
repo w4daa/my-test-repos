@@ -1,0 +1,111 @@
+implementation ordering
+
+1)  Application.properties
+
+2)  Contact message
+
+3)  All entities
+
+        User
+        UserRole
+        enums.RoleType
+
+        StudentInfo
+        Lesson
+        Education term
+        Lesson program
+        Meet
+
+4)  Security layer
+        UserDetailsImpl
+        UserDetailsServiceImpl
+        JwtUtils
+        AuthTokenFilter
+        WebSecurityConfig
+        AuthEntryPoint
+
+    Authentication Controller
+
+5)  User Controller
+
+6)  Main (Runner) tarafindaki kodlar eklenecek
+
+7)  Teacher Controller
+    Student Controller
+
+8)  Business Controllers
+
+
+        EducationTermController
+        LessonController
+        LessonProgramController
+        StudentInfoController
+        MeetController
+
+9)   Swagger
+
+10)  Spring AOP
+
+
+(update islemi icin baglantilar kurulmamasi lazim )
+Once dersler create edilcek?
+Education term create edilcek?
+Dersler crate edilirken education term secilecek+
+ derslerden ders programi create edilecek
+Teacherlar atanacak
+Student atanacak
+
+******* EKLENEBILECEKLER *********
+
+1) bir ogrenci bir donemde maksimum 26 kredi'lik ders secebilir
+2) yeni olusturulan veya update edilen EducationTerm suresi 4 aydan kisa 6 aydan uzun olamaz
+3) ogrenci sadece 1 donemden ders secebilir, ayni anda farkli donemlerden ders secememeli
+
+
+
+
+	// CONTROLLER
+	// authorization
+	// requestType -> path/parameter/body
+	// requested DTO + TDO validation
+	// requested response DTO
+	// SERVICE
+	// validation (existing/nonExisting/date/time/conflict)
+	// mapping to suitable object
+	// database related method
+	// mapping to requested response
+	// REPO
+	// suitable query for related service
+
+day-1
+- entity
+- package hierarchy
+- git usage
+  day-2
+- entity relationships
+- intellij database installation
+  day-3
+- IDE code style and color scheme settings (import/export)
+- java docs creation,
+- copy paste options in intellij
+- JPA custom queries
+  day-4
+- git collaborate working started
+  day-5
+- git blame clarified
+- re-usability of the code
+- debugging
+  day-6
+- class finding
+- class searching
+- extended search feature
+  day-7
+- postman environment and property creation
+  day-9
+- postman collections
+- home/end keyboard usage
+  day-10
+- open/close principle
+- bookmark feature in intellij
+  day-15
+- database constraints
