@@ -1,5 +1,6 @@
 package com.project.schoolmanagment.entity.concretes.businnes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,7 +25,7 @@ public class Lesson {
 
 	private Boolean isCompulsory;
 
-
+	@JsonIgnore
 	@ManyToMany(mappedBy = "lessons",cascade = CascadeType.REMOVE)
 	private Set<LessonProgram> lessonPrograms;
 
