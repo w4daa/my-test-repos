@@ -5,6 +5,7 @@ import com.project.schoolmanagment.entity.enums.RoleType;
 import com.project.schoolmanagment.exeption.ResourceNotFoundException;
 import com.project.schoolmanagment.payload.mappers.UserMapper;
 import com.project.schoolmanagment.payload.messages.ErrorMessages;
+import com.project.schoolmanagment.payload.messages.SuccessMessages;
 import com.project.schoolmanagment.payload.request.user.UserRequest;
 import com.project.schoolmanagment.payload.response.abstracts.ResponseMessage;
 import com.project.schoolmanagment.payload.response.user.UserResponse;
@@ -54,8 +55,12 @@ public class UserService {
 			throw new ResourceNotFoundException(String.format(
 					ErrorMessages.NOT_FOUND_USER_USER_ROLE_MESSAGE,userRole));
 		}
-		//userRepository.save(user);
-
+		user.setIsAdvisor(false);
+		User savedUser = userRepository.save(user);
+		return ResponseMessage.<UserResponse>builder()
+				.message(SuccessMessages.USER_CREATE)
+				.object(userMapper.mapUserToUserResponse(savedUser))
+				.build();
 	}
 
 }
