@@ -7,17 +7,26 @@ import com.project.schoolmanagment.payload.mappers.UserMapper;
 import com.project.schoolmanagment.payload.messages.ErrorMessages;
 import com.project.schoolmanagment.payload.messages.SuccessMessages;
 import com.project.schoolmanagment.payload.request.user.UserRequest;
+import com.project.schoolmanagment.payload.request.user.UserRequestWithoutPassword;
 import com.project.schoolmanagment.payload.response.abstracts.BaseUserResponse;
 import com.project.schoolmanagment.payload.response.abstracts.ResponseMessage;
 import com.project.schoolmanagment.payload.response.user.UserResponse;
 import com.project.schoolmanagment.repository.user.UserRepository;
+import com.project.schoolmanagment.service.helper.MethodHelper;
+import com.project.schoolmanagment.service.helper.PageableHelper;
 import com.project.schoolmanagment.service.validator.UniquePropertyValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +36,8 @@ public class UserService {
 	private final UniquePropertyValidator uniquePropertyValidator;
 	private final UserMapper userMapper;
 	private final UserRoleService userRoleService;
+	private final PageableHelper pageableHelper;
+	private final MethodHelper methodHelper;
 
 	public ResponseMessage<UserResponse>saveUser(UserRequest userRequest, String userRole){
 		//handle uniqueness exceptions
@@ -65,7 +76,13 @@ public class UserService {
 				.build();
 	}
 
+	/**
+	 *
+	 * @param userId for query
+	 * @return mapped DTO BaseUserResponse
+	 */
 	public ResponseMessage<BaseUserResponse> getUserById(Long userId) {
+		//exception handling in case of not existing user in DB
 		User user = userRepository.findById(userId).orElseThrow(()->
 				new ResourceNotFoundException(String.format(ErrorMessages.NOT_FOUND_USER_MESSAGE,userId)));
 
@@ -83,5 +100,30 @@ public class UserService {
 				.httpStatus(HttpStatus.OK)
 				.object(baseUserResponse)
 				.build();
+	}
+
+	public Page<UserResponse> getUsersByPage(int page, int size, String sort, String type, String userRole) {
+		Pageable pageable = pageableHelper.getPageableWithProperties(page,size,sort,type);
+		return userRepository.findByUserByRole(userRole,pageable)
+				.map(userMapper::mapUserToUserResponse);
+	}
+
+	public List<UserResponse> getUserByName(String userName) {
+		return userRepository.getUserByNameContaining(userName)
+				.stream()
+				.map(userMapper::mapUserToUserResponse)
+				.collect(Collectors.toList());
+	}
+
+	public ResponseEntity<String> updateUserForUsers(UserRequestWithoutPassword userRequestWithoutPassword, HttpServletRequest request) {
+		String userName = (String) request.getAttribute("username");
+
+		User user = userRepository.findByUsername(userName);
+
+		//we need to check if this user can be changed
+		methodHelper.isUserBuiltIn(user);
+		//we need to check are we changing the require properties
+
+		//username > yildiz -> yildiz1
 	}
 }
