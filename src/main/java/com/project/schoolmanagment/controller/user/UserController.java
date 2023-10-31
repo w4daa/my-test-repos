@@ -1,6 +1,7 @@
 package com.project.schoolmanagment.controller.user;
 
 import com.project.schoolmanagment.payload.request.user.UserRequest;
+import com.project.schoolmanagment.payload.response.abstracts.BaseUserResponse;
 import com.project.schoolmanagment.payload.response.abstracts.ResponseMessage;
 import com.project.schoolmanagment.payload.response.user.UserResponse;
 import com.project.schoolmanagment.service.user.UserService;
@@ -24,5 +25,13 @@ public class UserController {
 			@PathVariable String userRole){
 			return ResponseEntity.ok(userService.saveUser(userRequest,userRole));
 	}
+
+	@GetMapping("/getUserById/{userId}")
+	public ResponseMessage<BaseUserResponse> getUserById(@PathVariable Long userId){
+		return userService.getUserById(userId);
+	}
+
+
+
 
 }
