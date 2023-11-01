@@ -122,8 +122,9 @@ public class UserService {
 
 		//we need to check if this user can be changed
 		methodHelper.isUserBuiltIn(user);
-		//we need to check are we changing the require properties
+		//we need to check are we changing the requirement properties
 
 		//username > yildiz -> yildiz1
+		return null;
 	}
 }
